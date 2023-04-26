@@ -13,22 +13,16 @@ using namespace std;
 vector<double> mags;
 
 int Magpartition(int low, int high) {
-    int up = low;
+    double pivot = mags[low];
+    int up = low+1;
     int down = high;
 
-    while (up < down) {
-        for (int j = up; j < high; j++) {
-            if (mags[j] < mags[low]) {
-                break;
-            }
+    while (up <= down) {
+        while (up <= down && mags[up] >= pivot) {
             up++;
         }
-        for (int j = high; j > low; j--) {
-            if (mags[j] >= mags[low]) {
-                break;
-            }
-            if (down > 0)
-                down--;
+        while (up <= down && mags[down] < pivot) {
+            down--;
         }
         if (up < down) {
             std::swap(mags[up], mags[down]);
@@ -39,16 +33,17 @@ int Magpartition(int low, int high) {
 }
 
 void MagquickSort(int low, int high) {
-        if (low < high) {
-            if (low < 0)
-                cout << "LOW IS OUT OF BOUNDS: " << low << "\n";
-            if (high > mags.size()-1)
-                cout << "HIGH IS OUT OF BOUNDS: " << high << "\n";
-            int pivot = Magpartition(low, high);
-            MagquickSort(low, pivot - 1);
-            MagquickSort(pivot + 1, high);
-        }
+    if (low < high) {
+        if (low < 0)
+            cout << "LOW IS OUT OF BOUNDS: " << low << "\n";
+        if (high > mags.size()-1)
+            cout << "HIGH IS OUT OF BOUNDS: " << high << "\n";
+        int pivot = Magpartition(low, high);
+        MagquickSort(low, pivot - 1);
+        MagquickSort(pivot + 1, high);
     }
+}
+
 
 int main() {
 
